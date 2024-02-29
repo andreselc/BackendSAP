@@ -1,4 +1,18 @@
+using BackendSAP.Data;
+using BackendSAP.Repositorios;
+using BackendSAP.Repositorios.IRepositorios;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
+{
+    opciones.UseSqlServer(builder.Configuration.GetConnectionString("ConexionSql"));
+}
+);
+
+//Agregamos los repositorios
+builder.Services.AddScoped<IEstadoRepositorio, EstadoRepositorio>();
 
 // Add services to the container.
 
