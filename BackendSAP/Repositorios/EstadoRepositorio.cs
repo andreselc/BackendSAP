@@ -37,9 +37,9 @@ namespace BackendSAP.Repositorios
             return valor;
         }
 
-        public bool ExisteEstado(int id)
+        public bool ExisteEstado(int estadoId)
         {
-            return _bd.Estados.Any(c => c.Id == id);
+            return _bd.Estados.Any(c => c.Id == estadoId);
         }
 
         public Estados GetEstado(int estadoId)
