@@ -13,12 +13,12 @@ namespace BackendSAP.Controllers
     [Route("api/ciudades")]
     public class CiudadesController : ControllerBase
     {
-        private readonly ICiudadRepositorio _ciRepo;
+        private readonly ICiudadRepositorio _ciuRepo;
         private readonly IMapper _mapper;
 
-        public CiudadesController(ICiudadRepositorio ciRepo, IMapper mapper)
+        public CiudadesController(ICiudadRepositorio ciuRepo, IMapper mapper)
         {
-            _ciRepo = ciRepo;
+            _ciuRepo = ciuRepo;
             _mapper = mapper;   
         }
 
@@ -30,7 +30,7 @@ namespace BackendSAP.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetCiudades()
         {
-            var listaCiudades = _ciRepo.GetCiudades();
+            var listaCiudades = _ciuRepo.GetCiudades();
             var listaCiudadesDto = new List<CiudadDto>();
             foreach (var lista in listaCiudades) 
             {
@@ -49,7 +49,7 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetCiudad(int CiudadId)
         {
-            var itemCiudad = _ciRepo.GetCiudad(CiudadId);
+            var itemCiudad = _ciuRepo.GetCiudad(CiudadId);
             if(itemCiudad == null)
             {
                 return NotFound();
@@ -76,70 +76,112 @@ namespace BackendSAP.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (_ciRepo.ExisteCiudad(crearCiudadDto.Nombre)) 
+            if (_ciuRepo.ExisteCiudad(crearCiudadDto.Nombre)) 
             {
                 ModelState.AddModelError("", "La Categoría ya existe");
                 return StatusCode(404, ModelState);
             }
 
-            var Ciudad = _mapper.Map<Ciudades>(crearCiudadDto);
-            if (!_ciRepo.CrearCiudad(Ciudad)) 
+            var ciudad = _mapper.Map<Ciudades>(crearCiudadDto);
+            if (!_ciuRepo.CrearCiudad(ciudad)) 
             {
-                ModelState.AddModelError("", $"Algo salió mal guardando el registro {Ciudad.Nombre}");
+                ModelState.AddModelError("", $"Algo salió mal guardando el registro {ciudad.Nombre}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetCiudad", new { CiudadId = Ciudad.Id}, Ciudad);
+            return CreatedAtRoute("GetCiudad", new { CiudadId = ciudad.Id}, ciudad);
         }
 
         //[Authorize(Roles = "admin")]
-        [HttpPatch("{CiudadId}", Name = "ActualizarPatchCiudad")]
+        [HttpPatch("{ciudadId}", Name = "ActualizarPatchCiudad")]
         [ProducesResponseType(201, Type = typeof(CiudadDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ActualizarPatchCiudad(int CiudadId ,[FromBody] CiudadDto CiudadDto)
+        public IActionResult ActualizarPatchCiudad(int ciudadId ,[FromBody] CiudadDto ciudadDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (CiudadDto == null || !_ciRepo.ExisteCiudad(CiudadId))
+            if (ciudadDto == null || !_ciuRepo.ExisteCiudad(ciudadId))
             {
                 return BadRequest(ModelState);
             }
        
-            var Ciudad = _mapper.Map<Ciudades>(CiudadDto);
-            if (!_ciRepo.ActualizarCiudad(Ciudad))
+            var ciudad = _mapper.Map<Ciudades>(ciudadDto);
+            if (!_ciuRepo.ActualizarCiudad(ciudad))
             {
-                ModelState.AddModelError("", $"Algo salió mal actualizando el registro {Ciudad.Nombre}");
+                ModelState.AddModelError("", $"Algo salió mal actualizando el registro {ciudad.Nombre}");
                 return StatusCode(500, ModelState);
             }
             return NoContent();
         }
 
         //[Authorize(Roles = "admin")]
-        [HttpDelete("{CiudadId}", Name = "EliminarCiudad")]
+        [HttpDelete("{ciudadId}", Name = "EliminarCiudad")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult EliminarCiudad(int CiudadId)
+        public IActionResult EliminarCiudad(int ciudadId)
         {
-            if (!_ciRepo.ExisteCiudad(CiudadId))
+            if (!_ciuRepo.ExisteCiudad(ciudadId))
             {
                 return NotFound();
             }
 
-            var Ciudad = _ciRepo.GetCiudad(CiudadId);
+            var ciudad = _ciuRepo.GetCiudad(ciudadId);
 
-            if (!_ciRepo.BorrarCiudad(Ciudad))
+            if (!_ciuRepo.BorrarCiudad(ciudad))
             {
-                ModelState.AddModelError("", $"Algo salió mal borrando el registro {Ciudad.Nombre}");
+                ModelState.AddModelError("", $"Algo salió mal borrando el registro {ciudad.Nombre}");
                 return StatusCode(500, ModelState);
             }
             return NoContent();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetCiudadEnEstado/{estadoId}")]
+        public IActionResult GetCiudadEnEstado(int estadoId)
+        {
+            var listaCiudades = _ciuRepo.GetCiudadesEnEstado(estadoId);
+
+            if (listaCiudades == null)
+            {
+                return NotFound();
+            }
+
+            var itemCiudad = new List<CiudadDto>();
+
+            foreach (var item in listaCiudades)
+            {
+                itemCiudad.Add(_mapper.Map<CiudadDto>(item));
+            }
+
+            return Ok(itemCiudad);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Buscar")]
+        public IActionResult Buscar(string nombre)
+        {
+            try
+            {
+                var resultado = _ciuRepo.BuscarCiudad(nombre.Trim());
+
+                if (resultado.Any())
+                {
+                    return Ok(resultado);
+                }
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error recuperando datos");
+            }
+
         }
 
     }

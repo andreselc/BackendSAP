@@ -14,6 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
 
 //Agregamos los repositorios
 builder.Services.AddScoped<IEstadoRepositorio, EstadoRepositorio>();
+builder.Services.AddScoped<ICiudadRepositorio, CiudadRepositorio>();
 
 //Agregar los Automappers
 builder.Services.AddAutoMapper(typeof(PaginaWebMapper));
