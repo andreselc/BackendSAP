@@ -12,5 +12,6 @@ namespace BackendSAP.Data
 
         //Agregar los modelos aquí
         public DbSet<Estados> Estados { get; set; }
+        public DbSet<Ciudades> Ciudades { get; set; }
     }
 }
