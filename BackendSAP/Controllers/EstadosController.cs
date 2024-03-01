@@ -13,12 +13,12 @@ namespace BackendSAP.Controllers
     [Route("api/estados")]
     public class EstadosController : ControllerBase
     {
-        private readonly IEstadoRepositorio _ctRepo;
+        private readonly IEstadoRepositorio _esRepo;
         private readonly IMapper _mapper;
 
-        public EstadosController(IEstadoRepositorio ctRepo, IMapper mapper)
+        public EstadosController(IEstadoRepositorio esRepo, IMapper mapper)
         {
-            _ctRepo = ctRepo;
+            _esRepo = esRepo;
             _mapper = mapper;   
         }
 
@@ -30,7 +30,7 @@ namespace BackendSAP.Controllers
       [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetEstados()
         {
-            var listaEstados = _ctRepo.GetEstados();
+            var listaEstados = _esRepo.GetEstados();
             var listaEstadosDto = new List<EstadoDto>();
             foreach (var lista in listaEstados) 
             {
@@ -49,7 +49,7 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetEstado(int estadoId)
         {
-            var itemEstado = _ctRepo.GetEstado(estadoId);
+            var itemEstado = _esRepo.GetEstado(estadoId);
             if(itemEstado == null)
             {
                 return NotFound();
@@ -66,7 +66,7 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CrearEstado([FromBody] EstadoDto crearEstadoDto)
+        public IActionResult CrearEstado([FromBody] CrearEstadoDto crearEstadoDto)
         {
             if (!ModelState.IsValid) 
             { 
@@ -76,14 +76,14 @@ namespace BackendSAP.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (_ctRepo.ExisteEstado(crearEstadoDto.Nombre)) 
+            if (_esRepo.ExisteEstado(crearEstadoDto.Nombre)) 
             {
                 ModelState.AddModelError("", "La Categoría ya existe");
                 return StatusCode(404, ModelState);
             }
 
             var estado = _mapper.Map<Estados>(crearEstadoDto);
-            if (!_ctRepo.CrearEstado(estado)) 
+            if (!_esRepo.CrearEstado(estado)) 
             {
                 ModelState.AddModelError("", $"Algo salió mal guardando el registro {estado.Nombre}");
                 return StatusCode(500, ModelState);
@@ -104,13 +104,13 @@ namespace BackendSAP.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (estadoDto == null || estadoId != estadoDto.Id)
+            if (estadoDto == null || !_esRepo.ExisteEstado(estadoId))
             {
                 return BadRequest(ModelState);
             }
        
             var estado = _mapper.Map<Estados>(estadoDto);
-            if (!_ctRepo.ActualizarEstado(estado))
+            if (!_esRepo.ActualizarEstado(estado))
             {
                 ModelState.AddModelError("", $"Algo salió mal actualizando el registro {estado.Nombre}");
                 return StatusCode(500, ModelState);
@@ -127,14 +127,14 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult EliminarEstado(int estadoId)
         {
-            if (!_ctRepo.ExisteEstado(estadoId))
+            if (!_esRepo.ExisteEstado(estadoId))
             {
                 return NotFound();
             }
 
-            var estado = _ctRepo.GetEstado(estadoId);
+            var estado = _esRepo.GetEstado(estadoId);
 
-            if (!_ctRepo.BorrarEstado(estado))
+            if (!_esRepo.BorrarEstado(estado))
             {
                 ModelState.AddModelError("", $"Algo salió mal borrando el registro {estado.Nombre}");
                 return StatusCode(500, ModelState);

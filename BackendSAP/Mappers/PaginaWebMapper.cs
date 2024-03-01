@@ -9,6 +9,7 @@ namespace BackendSAP.Mappers
         public PaginaWebMapper()
         {
             CreateMap<Estados, EstadoDto>().ReverseMap();
+            CreateMap<Estados, CrearEstadoDto>().ReverseMap();
 
         }
     }
