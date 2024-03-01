@@ -1,6 +1,7 @@
 ﻿using BackendSAP.Data;
 using BackendSAP.Modelos;
 using BackendSAP.Repositorios.IRepositorios;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackendSAP.Repositorios
 {
@@ -50,6 +51,21 @@ namespace BackendSAP.Repositorios
         public ICollection<Ciudades> GetCiudades()
         {
             return _bd.Ciudades.OrderBy(c => c.Nombre).ToList();
+        }
+
+        public ICollection<Ciudades> GetCiudadesEnEstado(int estId)
+        {
+            return _bd.Ciudades.Include(es => es.Estados).Where(est => est.Id== estId).ToList();
+        }
+
+        public ICollection<Ciudades> BuscarCiudad(string nombre)
+        {
+            IQueryable<Ciudades> query = _bd.Ciudades;
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                query = query.Where(e => e.Nombre.Contains(nombre));
+            }
+            return query.ToList();
         }
 
         public bool Guardar()
