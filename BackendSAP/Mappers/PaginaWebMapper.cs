@@ -12,6 +12,7 @@ namespace BackendSAP.Mappers
             CreateMap<Estados, EstadoDto>().ReverseMap();
             CreateMap<Estados, CrearEstadoDto>().ReverseMap();
             CreateMap<Ciudades, CiudadDto>().ReverseMap();
+            CreateMap<Ciudades, CrearCiudadDto>().ReverseMap();
         }
     }
 }

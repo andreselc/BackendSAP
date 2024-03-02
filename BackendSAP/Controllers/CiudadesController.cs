@@ -66,7 +66,7 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CrearCiudad([FromBody] CiudadDto crearCiudadDto)
+        public IActionResult CrearCiudad([FromBody] CrearCiudadDto crearCiudadDto)
         {
             if (!ModelState.IsValid)
             {
