@@ -10,8 +10,9 @@ namespace BackendSAP.Modelos
         [Required]
         public string Nombre { get; set; }
 
-        [ForeignKey("estadoId")]
-        public int estadoId { get; set; } // Required foreign key property
-        public Estados Estados { get; set; } = null!; // Required reference navigation to principal
+        public int EstadoId { get; set; } // Cambio en el nombre de la propiedad
+
+        [ForeignKey("EstadoId")] // Corrección en el nombre de la FK
+        public Estados Estados { get; set; } // Cambio en el nombre de la propiedad de navegación
     }
 }

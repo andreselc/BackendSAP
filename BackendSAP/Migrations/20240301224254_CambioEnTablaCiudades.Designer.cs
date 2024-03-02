@@ -3,6 +3,7 @@ using BackendSAP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendSAP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240301224254_CambioEnTablaCiudades")]
+    partial class CambioEnTablaCiudades
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,16 +32,19 @@ namespace BackendSAP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EstadoId")
+                    b.Property<int>("EstadosId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("estadoId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("EstadoId");
+                    b.HasIndex("EstadosId");
 
                     b.ToTable("Ciudades");
                 });
@@ -64,7 +70,7 @@ namespace BackendSAP.Migrations
                 {
                     b.HasOne("BackendSAP.Modelos.Estados", "Estados")
                         .WithMany("Ciudades")
-                        .HasForeignKey("EstadoId")
+                        .HasForeignKey("EstadosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

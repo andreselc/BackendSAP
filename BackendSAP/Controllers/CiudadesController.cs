@@ -40,16 +40,16 @@ namespace BackendSAP.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{CiudadId}", Name= "GetCiudad")]
+        [HttpGet("{ciudadId}", Name= "GetCiudad")]
         //[ResponseCache(Duration = 30)]
         //[ResponseCache(CacheProfileName = "PorDefecto20Segundos")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetCiudad(int CiudadId)
+        public IActionResult GetCiudad(int ciudadId)
         {
-            var itemCiudad = _ciuRepo.GetCiudad(CiudadId);
+            var itemCiudad = _ciuRepo.GetCiudad(ciudadId);
             if(itemCiudad == null)
             {
                 return NotFound();
@@ -68,27 +68,27 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult CrearCiudad([FromBody] CiudadDto crearCiudadDto)
         {
-            if (!ModelState.IsValid) 
-            { 
-                return BadRequest(ModelState);
-            }
-            if(crearCiudadDto == null)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (_ciuRepo.ExisteCiudad(crearCiudadDto.Nombre)) 
+            if (crearCiudadDto == null)
             {
-                ModelState.AddModelError("", "La Categoría ya existe");
+                return BadRequest(ModelState);
+            }
+            if (_ciuRepo.ExisteCiudad(crearCiudadDto.Nombre))
+            {
+                ModelState.AddModelError("", "La Ciudad ya existe");
                 return StatusCode(404, ModelState);
             }
 
             var ciudad = _mapper.Map<Ciudades>(crearCiudadDto);
-            if (!_ciuRepo.CrearCiudad(ciudad)) 
+            if (!_ciuRepo.CrearCiudad(ciudad))
             {
                 ModelState.AddModelError("", $"Algo salió mal guardando el registro {ciudad.Nombre}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetCiudad", new { CiudadId = ciudad.Id}, ciudad);
+            return CreatedAtRoute("GetCiudad", new { ciudadId = ciudad.Id }, ciudad);
         }
 
         //[Authorize(Roles = "admin")]
