@@ -120,7 +120,7 @@ namespace BackendSAP.Repositorios
                     await _roleManager.CreateAsync(new IdentityRole("usuario"));
                 }
 
-                await _userManager.AddToRoleAsync(usuario, "admin");
+                await _userManager.AddToRoleAsync(usuario, "usuario");
                 var usuarioRetornado = _bd.Usuarios.FirstOrDefault(u => u.UserName == usuarioRegistroDto.Email);
 
                 return new UsuarioDatosDto()

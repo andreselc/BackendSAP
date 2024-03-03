@@ -28,7 +28,9 @@ namespace BackendSAP.Modelos
         public int? CiudadId { get; set; } // Clave Foránea
 
         [ForeignKey("CiudadId")] 
-        public Ciudades? Ciudades { get; set; } 
+        public Ciudades? Ciudades { get; set; }
+
+        public List<EspecialidadPsicologo> EspecialidadPsicologos { get; } = [];
 
     }
 

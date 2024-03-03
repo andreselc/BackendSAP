@@ -59,7 +59,7 @@ namespace BackendSAP.Controllers
             return Ok(itemCiudadDto);
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(CiudadDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -91,7 +91,7 @@ namespace BackendSAP.Controllers
             return CreatedAtRoute("GetCiudad", new { ciudadId = ciudad.Id }, ciudad);
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPatch("{ciudadId}", Name = "ActualizarPatchCiudad")]
         [ProducesResponseType(201, Type = typeof(CiudadDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -118,7 +118,7 @@ namespace BackendSAP.Controllers
             return NoContent();
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{ciudadId}", Name = "EliminarCiudad")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
