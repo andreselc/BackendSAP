@@ -59,7 +59,8 @@ namespace BackendSAP.Controllers
             return Ok(itemEstadoDto);
         }
 
-        //[Authorize(Roles = "admin")]
+        //[AllowAnonymous]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(EstadoDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -91,7 +92,7 @@ namespace BackendSAP.Controllers
             return CreatedAtRoute("GetEstado", new { estadoId = estado.Id}, estado);
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPatch("{estadoId}", Name = "ActualizarPatchEstado")]
         [ProducesResponseType(201, Type = typeof(EstadoDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -118,7 +119,7 @@ namespace BackendSAP.Controllers
             return NoContent();
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{estadoId}", Name = "EliminarEstado")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
