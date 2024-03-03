@@ -27,6 +27,7 @@ builder.Services.AddIdentity<Usuarios, IdentityRole>().AddEntityFrameworkStores<
 builder.Services.AddScoped<IEstadoRepositorio, EstadoRepositorio>();
 builder.Services.AddScoped<ICiudadRepositorio, CiudadRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<ITrastornoRepositorio, TrastornoRepositorio>();
 
 //Configuración de la autenticación
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secreta");
