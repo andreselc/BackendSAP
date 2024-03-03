@@ -30,7 +30,7 @@ namespace BackendSAP.Modelos
         [ForeignKey("CiudadId")] 
         public Ciudades? Ciudades { get; set; }
 
-        public List<EspecialidadPsicologo> EspecialidadPsicologos { get; } = [];
+        public List<EspecialidadPsicologo> EspecialidadPsicologos { get; } = new List<EspecialidadPsicologo>();
 
     }
 

@@ -16,7 +16,7 @@ namespace BackendSAP.Modelos
         public string Sintomas { get; set; }
         [Required]
         public DateTime FechaPublicacion { get; set; }
-        public List<EspecialidadPsicologo> EspecialidadPsicologos { get; } = [];
+        public List<EspecialidadPsicologo> EspecialidadPsicologos { get; } = new List<EspecialidadPsicologo>();
 
     }
 }
