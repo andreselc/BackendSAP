@@ -38,12 +38,12 @@ namespace BackendSAP.Repositorios
 
         public ICollection<Usuarios> GetUsuarios()
         {
-            return _bd.Usuarios.OrderBy(u => u.UserName).ToList();
+            return _bd.Usuarios.OrderBy(u => u.Email).ToList();
         }
 
         public bool IsUniqueUser(string usuario)
         {
-            var usuariobd = _bd.Usuarios.FirstOrDefault(u => u.UserName == usuario);
+            var usuariobd = _bd.Usuarios.FirstOrDefault(u => u.Email == usuario);
             if (usuariobd == null)
             {
                 return true;
@@ -58,7 +58,7 @@ namespace BackendSAP.Repositorios
         {
             //var passwordEncrptado = obtenermd5(usuarioLoginDto.Password);
             var usuario = _bd.Usuarios.FirstOrDefault(
-               u => u.UserName.ToLower() == usuarioLoginDto.UserName.ToLower());
+               u => u.Email.ToLower() == usuarioLoginDto.Email.ToLower());
 
             bool isValida = await _userManager.CheckPasswordAsync(usuario, usuarioLoginDto.Password);
             //Validamos si el usuario no existe con la combinación de usuario y contraseña correcta
@@ -79,7 +79,7 @@ namespace BackendSAP.Repositorios
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, usuario.UserName.ToString()),
+                    new Claim(ClaimTypes.Email, usuario.Email.ToString()),
                     new Claim(ClaimTypes.Role, roles.FirstOrDefault())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
@@ -102,10 +102,11 @@ namespace BackendSAP.Repositorios
 
             Usuarios usuario = new Usuarios()
             {
-                UserName = usuarioRegistroDto.UserName,
-                Email = usuarioRegistroDto.UserName,
-                NormalizedEmail = usuarioRegistroDto.UserName.ToUpper(),
-                Nombre = usuarioRegistroDto.Nombre
+                UserName = usuarioRegistroDto.Email,
+                Email = usuarioRegistroDto.Email,
+                NormalizedEmail = usuarioRegistroDto.Email.ToUpper(),
+                Nombre = usuarioRegistroDto.Nombre,
+                Apellido = usuarioRegistroDto.Apellido
             };
 
             var result = await _userManager.CreateAsync(usuario, usuarioRegistroDto.Password);
@@ -115,17 +116,19 @@ namespace BackendSAP.Repositorios
                 if (!_roleManager.RoleExistsAsync("admin").GetAwaiter().GetResult())
                 {
                     await _roleManager.CreateAsync(new IdentityRole("admin"));
-                    await _roleManager.CreateAsync(new IdentityRole("registrado"));
+                    await _roleManager.CreateAsync(new IdentityRole("psicologo"));
+                    await _roleManager.CreateAsync(new IdentityRole("usuario"));
                 }
 
-                await _userManager.AddToRoleAsync(usuario, "registrado");
-                var usuarioRetornado = _bd.Usuarios.FirstOrDefault(u => u.UserName == usuarioRegistroDto.UserName);
+                await _userManager.AddToRoleAsync(usuario, "usuario");
+                var usuarioRetornado = _bd.Usuarios.FirstOrDefault(u => u.UserName == usuarioRegistroDto.Email);
 
                 return new UsuarioDatosDto()
                 {
                     Id = usuarioRetornado.Id,
-                    UserName = usuarioRegistroDto.UserName,
-                    Nombre = usuarioRetornado.Nombre
+                    Email = usuarioRegistroDto.Email,
+                    Nombre = usuarioRetornado.Nombre,
+                    Apellido = usuarioRetornado.Apellido
                 };
 
             }
