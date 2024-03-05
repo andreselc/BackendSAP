@@ -15,47 +15,47 @@ namespace BackendSAP.Repositorios
 
         public bool ActualizarTrastorno(TrastornoPsicologico trastorno)
         {
-            _bd.TrastornosPsicologicos.Update(trastorno);
+            _bd.TrastornoPsicologico.Update(trastorno);
             return Guardar();
         }
 
         public bool BorrarTrastorno(TrastornoPsicologico trastorno)
         {
-            _bd.TrastornosPsicologicos.Remove(trastorno);
+            _bd.TrastornoPsicologico.Remove(trastorno);
             return Guardar();
         }
 
         public bool CrearTrastorno(TrastornoPsicologico trastorno)
         {
             trastorno.FechaPublicacion = DateTime.Now;
-            _bd.TrastornosPsicologicos.Add(trastorno);
+            _bd.TrastornoPsicologico.Add(trastorno);
             return Guardar();
         }
 
         public bool ExisteTrastorno(string nombre)
         {
-            bool valor = _bd.TrastornosPsicologicos.Any(c => c.Nombre.ToLower().Trim() == nombre);
+            bool valor = _bd.TrastornoPsicologico.Any(t => t.Nombre.ToLower().Trim() == nombre);
             return valor;
         }
 
         public bool ExisteTrastorno(int id)
         {
-            return _bd.TrastornosPsicologicos.Any(c => c.Id == id);
+            return _bd.TrastornoPsicologico.Any(t => t.Id == id);
         }
 
         public ICollection<TrastornoPsicologico> GetTrastornos()
         {
-            return _bd.TrastornosPsicologicos.OrderBy(c => c.Nombre).ToList();
+            return _bd.TrastornoPsicologico.OrderBy(t => t.Nombre).ToList();
         }
 
         public TrastornoPsicologico GetTrastorno(int trastornoId)
         {
-            return _bd.TrastornosPsicologicos.FirstOrDefault(c => c.Id == trastornoId);
+            return _bd.TrastornoPsicologico.FirstOrDefault(t => t.Id == trastornoId);
         }
 
         public ICollection<TrastornoPsicologico> BuscarTrastorno(string nombre)
         {
-            IQueryable<TrastornoPsicologico> query = _bd.TrastornosPsicologicos;
+            IQueryable<TrastornoPsicologico> query = _bd.TrastornoPsicologico;
             if (!string.IsNullOrEmpty(nombre))
             {
                 query = query.Where(t => t.Nombre.Contains(nombre));
