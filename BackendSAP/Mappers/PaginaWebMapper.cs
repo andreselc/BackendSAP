@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BackendSAP.Modelos;
+using BackendSAP.Modelos.Dtos.Calificaciones;
 using BackendSAP.Modelos.Dtos.Ciudades;
 using BackendSAP.Modelos.Dtos.Estados;
 using BackendSAP.Modelos.Dtos.Trastornos;
@@ -20,6 +21,9 @@ namespace BackendSAP.Mappers
             CreateMap<TrastornoPsicologico, TrastornoDto>().ReverseMap();
             CreateMap<TrastornoPsicologico, CrearTrastornoDto>().ReverseMap();
             CreateMap<TrastornoPsicologico, ActualizarTrastornoDto>().ReverseMap();
+            CreateMap<Calificaciones, CalificacionesDto>().ReverseMap();
+            CreateMap<Calificaciones, CrearCalificacionesDto>().ReverseMap();
+            CreateMap<Calificaciones, ActualizarCalificacionesDto>().ReverseMap();
         }
     }
 }

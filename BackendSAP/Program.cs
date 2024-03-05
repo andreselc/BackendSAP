@@ -28,6 +28,8 @@ builder.Services.AddScoped<IEstadoRepositorio, EstadoRepositorio>();
 builder.Services.AddScoped<ICiudadRepositorio, CiudadRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<ITrastornoRepositorio, TrastornoRepositorio>();
+builder.Services.AddScoped<ICalificacionesRepositorio, CalificacionesRepositorio>();
+
 
 //Configuración de la autenticación
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secreta");

@@ -31,5 +31,6 @@ namespace BackendSAP.Data
         public DbSet<Ciudades> Ciudades { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<TrastornoPsicologico> TrastornoPsicologico { get; set; }
+        public DbSet<Calificaciones> Calificaciones { get; set; }
     }
 }
