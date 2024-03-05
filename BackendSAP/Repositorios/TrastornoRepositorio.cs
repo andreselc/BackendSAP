@@ -27,6 +27,7 @@ namespace BackendSAP.Repositorios
 
         public bool CrearTrastorno(TrastornoPsicologico trastorno)
         {
+            trastorno.FechaPublicacion = DateTime.Now;
             _bd.TrastornosPsicologicos.Add(trastorno);
             return Guardar();
         }
