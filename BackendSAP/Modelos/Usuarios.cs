@@ -32,6 +32,8 @@ namespace BackendSAP.Modelos
 
         public List<EspecialidadPsicologo> EspecialidadPsicologos { get; } = new List<EspecialidadPsicologo>();
 
+        public List<Calificaciones> Calificaciones { get; } = new List<Calificaciones>();
+
     }
 
 }
