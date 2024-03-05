@@ -91,12 +91,12 @@ namespace BackendSAP.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPatch("{TrastornoId}", Name = "ActualizarPatchTrastorno")]
+        [HttpPatch("{trastornoId}", Name = "ActualizarPatchTrastorno")]
         [ProducesResponseType(201, Type = typeof(TrastornoDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ActualizarPatchTrastorno(int trastornoId, [FromBody] TrastornoDto trastornoDto)
+        public IActionResult ActualizarPatchTrastorno(int trastornoId, [FromBody] ActualizarTrastornoDto trastornoDto)
         {
             if (!ModelState.IsValid)
             {
