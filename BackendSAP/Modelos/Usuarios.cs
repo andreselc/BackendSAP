@@ -32,8 +32,9 @@ namespace BackendSAP.Modelos
 
         public List<EspecialidadPsicologo> EspecialidadPsicologos { get; } = new List<EspecialidadPsicologo>();
 
-        public List<Calificaciones> Calificaciones { get; } = new List<Calificaciones>();
+        public List<Calificaciones> CalificacionesHechas { get; set; } // Relación con las calificaciones hechas por este usuario
 
+        public List<Calificaciones> CalificacionesRecibidas { get; set; } // Relación con las calificaciones recibidas por este usuario (psicólogo)
     }
 
 }

@@ -17,6 +17,16 @@ namespace BackendSAP.Data
             base.OnModelCreating(builder);
             builder.Entity<EspecialidadPsicologo>()
         .HasKey(e => new { e.psicologoId, e.trastornoId });
+
+            builder.Entity<Calificaciones>()
+        .HasOne(c => c.UsuariosCalificadores)
+        .WithMany(u => u.CalificacionesHechas)
+        .OnDelete(DeleteBehavior.Restrict); // Especifica la acción en caso de eliminación
+
+            builder.Entity<Calificaciones>()
+                .HasOne(c => c.UsuariosPsicologos)
+                .WithMany(u => u.CalificacionesRecibidas)
+                .OnDelete(DeleteBehavior.Restrict); // Especifica la acción en caso de eliminación
         }
 
         //Agregar los modelos aquí
