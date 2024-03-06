@@ -77,7 +77,7 @@ namespace BackendSAP.Controllers
             }
             if (_trasRepo.ExisteTrastorno(crearTrastornoDto.Nombre))
             {
-                ModelState.AddModelError("", "La Categoría ya existe");
+                ModelState.AddModelError("", "El trastorno ya existe");
                 return StatusCode(404, ModelState);
             }
 

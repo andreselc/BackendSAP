@@ -79,7 +79,7 @@ namespace BackendSAP.Controllers
             }
             if (_esRepo.ExisteEstado(crearEstadoDto.Nombre)) 
             {
-                ModelState.AddModelError("", "La Categoría ya existe");
+                ModelState.AddModelError("", "El estado ya existe");
                 return StatusCode(404, ModelState);
             }
 
