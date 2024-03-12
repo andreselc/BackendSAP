@@ -61,8 +61,9 @@ namespace BackendSAP.Repositorios
                u => u.Email.ToLower() == usuarioLoginDto.Email.ToLower());
 
             bool isValida = await _userManager.CheckPasswordAsync(usuario, usuarioLoginDto.Password);
+            Console.WriteLine(isValida);
             //Validamos si el usuario no existe con la combinación de usuario y contraseña correcta
-            if (isValida = false || usuario == null)
+            if (isValida == false || usuario == null)
             {
                 return new UsuarioLoginRespuestaDto()
                 {
