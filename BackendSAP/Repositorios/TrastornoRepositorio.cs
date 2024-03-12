@@ -1,5 +1,6 @@
 ﻿using BackendSAP.Data;
 using BackendSAP.Modelos;
+using BackendSAP.Modelos.Dtos.Trastornos;
 using BackendSAP.Repositorios.IRepositorios;
 
 namespace BackendSAP.Repositorios
@@ -15,7 +16,32 @@ namespace BackendSAP.Repositorios
 
         public bool ActualizarTrastorno(TrastornoPsicologico trastorno)
         {
-            _bd.TrastornoPsicologico.Update(trastorno);
+            var trastornoExistente = _bd.TrastornoPsicologico.FirstOrDefault(t => t.Id == trastorno.Id);
+
+            // Actualiza solo los campos proporcionados en el DTO
+            if (!string.IsNullOrEmpty(trastorno.Nombre))
+            {
+                trastornoExistente.Nombre = trastorno.Nombre;
+            }
+
+            if (!string.IsNullOrEmpty(trastorno.Descripcion))
+            {
+                trastornoExistente.Descripcion = trastorno.Descripcion;
+            }
+
+            if (!string.IsNullOrEmpty(trastorno.Causas))
+            {
+                trastornoExistente.Causas = trastorno.Causas;
+            }
+
+            if (!string.IsNullOrEmpty(trastorno.Sintomas))
+            {
+                trastornoExistente.Sintomas = trastorno.Sintomas;
+            }
+
+            trastornoExistente.FechaPublicacion = trastorno.FechaPublicacion;
+
+            _bd.TrastornoPsicologico.Update(trastornoExistente);
             return Guardar();
         }
 
