@@ -38,7 +38,7 @@ namespace BackendSAP.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{calificacionId}", Name = "GetCalificaciones")]
+        [HttpGet("{calificacionId}", Name = "GetCalificacion")]
         //[ResponseCache(Duration = 30)]
         //[ResponseCache(CacheProfileName = "PorDefecto20Segundos")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -57,9 +57,7 @@ namespace BackendSAP.Controllers
             return Ok(itemCalificacionesDto);
         }
 
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "psicologo")]
-        [Authorize(Roles = "usuario")]
+        [Authorize(Roles = "admin,psicologo,usuario")]
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(CalificacionesDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -83,25 +81,23 @@ namespace BackendSAP.Controllers
                 ModelState.AddModelError("", $"Algo salió mal guardando el registro {calificaciones.Id}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetCalificaciones", new { CalificacionesId = calificaciones.Id }, calificaciones);
+            return CreatedAtRoute("GetCalificacion", new { calificacionId = calificaciones.Id }, calificaciones);
         }
 
-        [Authorize(Roles = "admin")]
-        [Authorize(Roles = "psicologo")]
-        [Authorize(Roles = "usuario")]
-        [HttpPatch("{calificacionesId}", Name = "ActualizarPatchCalificaciones")]
+        [Authorize(Roles = "admin,psicologo,usuario")]
+        [HttpPatch("{calificacionId}", Name = "ActualizarPatchCalificaciones")]
         [ProducesResponseType(201, Type = typeof(CalificacionesDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ActualizarPatchCalificaciones(int calificacionesId, [FromBody] ActualizarCalificacionesDto calificacionesDto)
+        public IActionResult ActualizarPatchCalificaciones(int calificacionId, [FromBody] ActualizarCalificacionesDto calificacionesDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (calificacionesDto == null || !_caliRepo.ExisteCalificacion(calificacionesId))
+            if (calificacionesDto == null || !_caliRepo.ExisteCalificacion(calificacionId))
             {
                 return BadRequest(ModelState);
             }
@@ -116,24 +112,24 @@ namespace BackendSAP.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpDelete("{calificacionesId}", Name = "EliminarCalificaciones")]
+        [HttpDelete("{calificacionId}", Name = "EliminarCalificaciones")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult EliminarCalificaciones(int calificacionesId)
+        public IActionResult EliminarCalificaciones(int calificacionId)
         {
-            if (!_caliRepo.ExisteCalificacion(calificacionesId))
+            if (!_caliRepo.ExisteCalificacion(calificacionId))
             {
                 return NotFound();
             }
 
-            var calificaciones = _caliRepo.GetCalificacion(calificacionesId);
+            var calificacion = _caliRepo.GetCalificacion(calificacionId);
 
-            if (!_caliRepo.BorrarCalificacion(calificaciones))
+            if (!_caliRepo.BorrarCalificacion(calificacion))
             {
-                ModelState.AddModelError("", $"Algo salió mal borrando el registro {calificaciones.Id}");
+                ModelState.AddModelError("", $"Algo salió mal borrando el registro {calificacion.Id}");
                 return StatusCode(500, ModelState);
             }
             return NoContent();
