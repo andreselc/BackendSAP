@@ -33,7 +33,7 @@ namespace BackendSAP.Repositorios
 
         public bool ExisteCalificacion(int id)
         {
-            return _bd.Estados.Any(c => c.Id == id);
+            return _bd.Calificaciones.Any(c => c.Id == id);
         }
 
         public Calificaciones GetCalificacion(int calificacionId)
