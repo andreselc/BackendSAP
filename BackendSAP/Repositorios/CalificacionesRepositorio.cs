@@ -15,7 +15,23 @@ namespace BackendSAP.Repositorios
 
         public bool ActualizarCalificacion(Calificaciones calificacion)
         {
-            _bd.Calificaciones.Update(calificacion);
+            var calificacionExistente = _bd.Calificaciones.FirstOrDefault(c => c.Id == calificacion.Id);
+
+            if (!string.IsNullOrEmpty(calificacion.observacion))
+            {
+                calificacionExistente.observacion = calificacion.observacion;
+            }
+
+            if (!string.IsNullOrEmpty(calificacion.psicologoId))
+            {
+                calificacionExistente.psicologoId = calificacion.psicologoId;
+            }
+
+            if (!string.IsNullOrEmpty(calificacion.usuarioId))
+            {
+                calificacionExistente.usuarioId = calificacion.usuarioId;
+            }
+            _bd.Calificaciones.Update(calificacionExistente);
             return Guardar();
         }
 
