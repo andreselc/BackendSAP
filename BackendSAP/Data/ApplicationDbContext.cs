@@ -24,6 +24,14 @@ namespace BackendSAP.Data
             builder.Entity<Calificaciones>().HasOne(c => c.UsuariosPsicologos)
             .WithMany(u => u.CalificacionesRecibidas)
             .OnDelete(DeleteBehavior.Restrict); // Especifica la acción en caso de eliminación
+
+            builder.Entity<Calificaciones>()
+               .HasIndex(c => new { c.usuarioId, c.psicologoId })
+               .IsUnique();
+
+            builder.Entity<Calificaciones>()
+                .HasCheckConstraint("CK_Usuario_Psicologo_Calificacion", "usuarioId <> psicologoId");
+
         }
 
         //Agregar los modelos aquí
