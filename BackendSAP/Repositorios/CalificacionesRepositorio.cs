@@ -22,6 +22,11 @@ namespace BackendSAP.Repositorios
                 calificacionExistente.observacion = calificacion.observacion;
             }
 
+            if (!string.IsNullOrEmpty(calificacion.puntaje.ToString()))
+            {
+                calificacionExistente.puntaje = calificacion.puntaje;
+            }
+
             if (!string.IsNullOrEmpty(calificacion.psicologoId))
             {
                 calificacionExistente.psicologoId = calificacion.psicologoId;
