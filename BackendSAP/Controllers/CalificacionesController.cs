@@ -130,7 +130,9 @@ namespace BackendSAP.Controllers
             }
 
             var calificacion = _caliRepo.GetCalificacion(calificacionId);
-            string userId = HttpContext.User.Claims.FirstOrDefault(u => u.Type == "Id")?.Value;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            Console.Write(userId);
 
             if (calificacion.usuarioId != userId  && !User.IsInRole("admin"))
             {
