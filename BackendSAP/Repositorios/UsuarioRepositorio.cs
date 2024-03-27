@@ -54,6 +54,19 @@ namespace BackendSAP.Repositorios
             }
         }
 
+        public bool IsAdminUser(string usuario)
+        {
+            var usuariobd = _bd.Usuarios.FirstOrDefault(u => u.Id == usuario);
+            if (usuariobd.Id == "06ba0075-7d4d-45f7-956f-53691b26e3f0")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<UsuarioLoginRespuestaDto> Login(UsuarioLoginDto usuarioLoginDto)
         {
             //var passwordEncrptado = obtenermd5(usuarioLoginDto.Password);
@@ -83,7 +96,7 @@ namespace BackendSAP.Repositorios
                     new Claim(ClaimTypes.Email, usuario.Email.ToString()),
                     new Claim(ClaimTypes.Role, roles.FirstOrDefault())
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

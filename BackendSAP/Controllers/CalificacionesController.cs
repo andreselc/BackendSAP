@@ -4,6 +4,7 @@ using BackendSAP.Modelos;
 using BackendSAP.Repositorios.IRepositorios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BackendSAP.Controllers
 {
@@ -14,7 +15,7 @@ namespace BackendSAP.Controllers
         private readonly ICalificacionesRepositorio _caliRepo;
         private readonly IMapper _mapper;
 
-        public CalificacionesController(ICalificacionesRepositorio caliRepo, IMapper mapper)
+        public CalificacionesController(ICalificacionesRepositorio caliRepo,IMapper mapper)
         {
             _caliRepo = caliRepo;
             _mapper = mapper;
@@ -90,6 +91,8 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public IActionResult ActualizarPatchCalificaciones(int calificacionId, [FromBody] ActualizarCalificacionesDto calificacionesDto)
         {
             if (!ModelState.IsValid)
@@ -103,6 +106,7 @@ namespace BackendSAP.Controllers
             }
 
             var calificaciones = _mapper.Map<Calificaciones>(calificacionesDto);
+            
             if (!_caliRepo.ActualizarCalificacion(calificaciones))
             {
                 ModelState.AddModelError("", $"Algo salió mal actualizando el registro {calificaciones.Id}");
@@ -111,7 +115,7 @@ namespace BackendSAP.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,psicologo,usuario")]
         [HttpDelete("{calificacionId}", Name = "EliminarCalificaciones")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -126,6 +130,13 @@ namespace BackendSAP.Controllers
             }
 
             var calificacion = _caliRepo.GetCalificacion(calificacionId);
+            string userId = HttpContext.User.Claims.FirstOrDefault(u => u.Type == "Id")?.Value;
+
+            if (calificacion.usuarioId != userId  && !User.IsInRole("admin"))
+            {
+                ModelState.AddModelError("", $"No es posible eliminar una calificación que no le pertenece");
+                return StatusCode(403, ModelState);
+            }
 
             if (!_caliRepo.BorrarCalificacion(calificacion))
             {

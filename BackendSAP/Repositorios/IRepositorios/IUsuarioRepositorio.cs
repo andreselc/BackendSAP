@@ -8,6 +8,8 @@ namespace BackendSAP.Repositorios.IRepositorios
         ICollection<Usuarios> GetUsuarios();
         Usuarios GetUsuario(string usuarioId);
         bool IsUniqueUser(string usuario);
+
+        bool IsAdminUser(string usuario);
         Task<UsuarioLoginRespuestaDto> Login(UsuarioLoginDto usuarioLoginDto);
         Task<UsuarioDatosDto> Registro(UsuarioRegistroDto usuarioRegistroDto);
     }
