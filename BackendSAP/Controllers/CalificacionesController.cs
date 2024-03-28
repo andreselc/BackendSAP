@@ -14,11 +14,13 @@ namespace BackendSAP.Controllers
     {
         private readonly ICalificacionesRepositorio _caliRepo;
         private readonly IMapper _mapper;
+        private readonly IUsuarioRepositorio _usRepo;
 
-        public CalificacionesController(ICalificacionesRepositorio caliRepo,IMapper mapper)
+        public CalificacionesController(ICalificacionesRepositorio caliRepo,IMapper mapper, IUsuarioRepositorio usRepo)
         {
             _caliRepo = caliRepo;
             _mapper = mapper;
+            _usRepo = usRepo;
         }
 
         [AllowAnonymous]
@@ -130,11 +132,10 @@ namespace BackendSAP.Controllers
             }
 
             var calificacion = _caliRepo.GetCalificacion(calificacionId);
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Usuarios user = _usRepo.GetCurrentUser();
 
-            Console.Write(userId);
 
-            if (calificacion.usuarioId != userId  && !User.IsInRole("admin"))
+            if (calificacion.usuarioId != user.Id  && !User.IsInRole("admin"))
             {
                 ModelState.AddModelError("", $"No es posible eliminar una calificación que no le pertenece");
                 return StatusCode(403, ModelState);

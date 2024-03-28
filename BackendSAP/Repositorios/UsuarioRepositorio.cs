@@ -18,10 +18,11 @@ namespace BackendSAP.Repositorios
         private readonly UserManager<Usuarios> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UsuarioRepositorio(ApplicationDbContext bd, IConfiguration config,
             UserManager<Usuarios> userManager, RoleManager<IdentityRole> roleManager,
-            IMapper mapper)
+            IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _bd = bd;
             //Accedes al AppSetings para obtener la clave secreta de tus tokens
@@ -29,6 +30,39 @@ namespace BackendSAP.Repositorios
             _roleManager = roleManager;
             _userManager = userManager;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        }
+
+        public Usuarios GetCurrentUser()
+        {
+            var usuarioActual = _httpContextAccessor.HttpContext.User;
+
+            if (!usuarioActual.Identity.IsAuthenticated)
+            {
+                throw new UnauthorizedAccessException("Usuario no autenticado.");
+            }
+
+            foreach (var claim in usuarioActual.Claims)
+            {
+                Console.WriteLine($"Tipo: {claim.Type}, Valor: {claim.Value}");
+            }
+
+            // Suponiendo que el ID del usuario está almacenado en el Claim "id"
+            var userEmail = usuarioActual.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+            if (userEmail == null)
+            {
+                throw new InvalidOperationException("No se pudo encontrar el identificador del usuario en los claims.");
+            }
+
+            var usuario = _bd.Usuarios.FirstOrDefault(u => u.Email == userEmail);
+
+            if (usuario == null)
+            {
+                throw new InvalidOperationException("El usuario autenticado no existe en la base de datos.");
+            }
+
+            return usuario;
         }
 
         public Usuarios GetUsuario(string usuarioId)
@@ -45,19 +79,6 @@ namespace BackendSAP.Repositorios
         {
             var usuariobd = _bd.Usuarios.FirstOrDefault(u => u.Email == usuario);
             if (usuariobd == null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool IsAdminUser(string usuario)
-        {
-            var usuariobd = _bd.Usuarios.FirstOrDefault(u => u.Id == usuario);
-            if (usuariobd.Id == "06ba0075-7d4d-45f7-956f-53691b26e3f0")
             {
                 return true;
             }
