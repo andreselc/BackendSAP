@@ -41,13 +41,7 @@ namespace BackendSAP.Repositorios
             {
                 throw new UnauthorizedAccessException("Usuario no autenticado.");
             }
-
-            foreach (var claim in usuarioActual.Claims)
-            {
-                Console.WriteLine($"Tipo: {claim.Type}, Valor: {claim.Value}");
-            }
-
-            // Suponiendo que el ID del usuario está almacenado en el Claim "id"
+ 
             var userEmail = usuarioActual.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
             if (userEmail == null)
