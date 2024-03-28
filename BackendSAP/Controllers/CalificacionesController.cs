@@ -107,11 +107,18 @@ namespace BackendSAP.Controllers
                 return BadRequest(ModelState);
             }
 
-            var calificaciones = _mapper.Map<Calificaciones>(calificacionesDto);
-            
-            if (!_caliRepo.ActualizarCalificacion(calificaciones))
+            var calificacion = _mapper.Map<Calificaciones>(calificacionesDto);
+            Usuarios user = _usRepo.GetCurrentUser();
+
+            if (calificacion.usuarioId != user.Id && !User.IsInRole("admin"))
             {
-                ModelState.AddModelError("", $"Algo salió mal actualizando el registro {calificaciones.Id}");
+                ModelState.AddModelError("", $"No es posible editar una calificación que no le pertenece");
+                return StatusCode(403, ModelState);
+            }
+
+            if (!_caliRepo.ActualizarCalificacion(calificacion))
+            {
+                ModelState.AddModelError("", $"Algo salió mal actualizando el registro {calificacion.Id}");
                 return StatusCode(500, ModelState);
             }
             return NoContent();
