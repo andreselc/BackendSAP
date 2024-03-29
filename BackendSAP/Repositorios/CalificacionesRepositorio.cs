@@ -62,6 +62,11 @@ namespace BackendSAP.Repositorios
             return _bd.Calificaciones.Any(c => c.usuarioId == idUsuario && c.psicologoId == idPsicologo);
         }
 
+        public bool PuntajeEsCorrecto(int puntaje)
+        {
+            return puntaje >= 1 && puntaje <= 5;
+        }
+
         public Calificaciones GetCalificacion(int calificacionId)
         {
             return _bd.Calificaciones.FirstOrDefault(c => c.Id == calificacionId);

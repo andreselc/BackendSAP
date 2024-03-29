@@ -80,6 +80,12 @@ namespace BackendSAP.Controllers
 
             var calificacion = _mapper.Map<Calificaciones>(crearCalificacionesDto);
 
+            if (!_caliRepo.PuntajeEsCorrecto(calificacion.puntaje))
+            {
+                ModelState.AddModelError("", "Puntaje mal colocado, ingrese un número entero del 1 al 5.");
+                return StatusCode(400, ModelState);
+            }
+
             if (_caliRepo.ExisteCalificacionDuplicada(calificacion.usuarioId, calificacion.psicologoId))
             {
                 ModelState.AddModelError("", "No puedes registrar dos calificaciones al mismo psicólogo.");
@@ -117,6 +123,12 @@ namespace BackendSAP.Controllers
             var calificacion = _mapper.Map<Calificaciones>(calificacionesDto);
             calificacion.usuarioId = _caliRepo.GetCalificacion(calificacionId).usuarioId;
             Usuarios user = _usRepo.GetCurrentUser();
+
+            if (!_caliRepo.PuntajeEsCorrecto(calificacion.puntaje))
+            {
+                ModelState.AddModelError("", "Puntaje mal colocado, ingrese un número entero del 1 al 5.");
+                return StatusCode(400, ModelState);
+            }
 
             if (calificacion.usuarioId != user.Id && !User.IsInRole("admin"))
             {

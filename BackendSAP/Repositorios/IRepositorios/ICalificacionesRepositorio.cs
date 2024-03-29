@@ -8,6 +8,7 @@ namespace BackendSAP.Repositorios.IRepositorios
         Calificaciones GetCalificacion(int calificacionId);
         bool ExisteCalificacion(int id); 
         bool ExisteCalificacionDuplicada(string idUsuario, string idPsicologo);
+        bool PuntajeEsCorrecto(int puntaje);
         bool CrearCalificacion(Calificaciones calificacion);
         bool ActualizarCalificacion(Calificaciones calificacion);
         bool BorrarCalificacion(Calificaciones calificacion);
