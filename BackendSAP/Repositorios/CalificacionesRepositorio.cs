@@ -57,6 +57,11 @@ namespace BackendSAP.Repositorios
             return _bd.Calificaciones.Any(c => c.Id == id);
         }
 
+        public bool ExisteCalificacionDuplicada(string idUsuario, string idPsicologo)
+        {
+            return _bd.Calificaciones.Any(c => c.usuarioId == idUsuario && c.psicologoId == idPsicologo);
+        }
+
         public Calificaciones GetCalificacion(int calificacionId)
         {
             return _bd.Calificaciones.FirstOrDefault(c => c.Id == calificacionId);

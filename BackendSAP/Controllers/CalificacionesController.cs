@@ -78,13 +78,20 @@ namespace BackendSAP.Controllers
                 return BadRequest(ModelState);
             }
 
-            var calificaciones = _mapper.Map<Calificaciones>(crearCalificacionesDto);
-            if (!_caliRepo.CrearCalificacion(calificaciones))
+            var calificacion = _mapper.Map<Calificaciones>(crearCalificacionesDto);
+
+            if (_caliRepo.ExisteCalificacionDuplicada(calificacion.usuarioId, calificacion.psicologoId))
             {
-                ModelState.AddModelError("", $"Algo salió mal guardando el registro {calificaciones.Id}");
+                ModelState.AddModelError("", "No puedes registrar dos calificaciones al mismo psicólogo.");
+                return StatusCode(400, ModelState);
+            }
+
+            if (!_caliRepo.CrearCalificacion(calificacion))
+            {
+                ModelState.AddModelError("", $"Algo salió mal guardando el registro {calificacion.Id}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetCalificacion", new { calificacionId = calificaciones.Id }, calificaciones);
+            return CreatedAtRoute("GetCalificacion", new { calificacionId = calificacion.Id }, calificacion);
         }
 
         [Authorize(Roles = "admin,psicologo,usuario")]
