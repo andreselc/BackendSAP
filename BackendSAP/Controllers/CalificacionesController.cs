@@ -108,6 +108,7 @@ namespace BackendSAP.Controllers
             }
 
             var calificacion = _mapper.Map<Calificaciones>(calificacionesDto);
+            calificacion.usuarioId = _caliRepo.GetCalificacion(calificacionId).usuarioId;
             Usuarios user = _usRepo.GetCurrentUser();
 
             if (calificacion.usuarioId != user.Id && !User.IsInRole("admin"))
