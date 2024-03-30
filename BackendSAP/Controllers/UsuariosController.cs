@@ -131,7 +131,7 @@ namespace BackendSAP.Controllers
                 return BadRequest(ModelState);
             }
 
-            var usurarioPsicologo = _mapper.Map<UsuarioActualizarPsicologoDto>(psicologoActualizarDto);
+            var usuarioPsicologo = _mapper.Map<Usuarios>(psicologoActualizarDto);
             Usuarios currentUser = _usRepo.GetCurrentUser();
 
             if (usuarioPsicologo.Id != currentUser.Id && !User.IsInRole("admin"))
