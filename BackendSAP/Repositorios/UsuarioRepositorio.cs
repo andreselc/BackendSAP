@@ -166,11 +166,59 @@ namespace BackendSAP.Repositorios
 
         public async Task<Usuarios> ActualizarUsuarioPsicologo(Usuarios usuario)
         {
-            var result = await _userManager.UpdateAsync(usuario);
-            var usuarioExistente = _bd.Usuarios.FirstOrDefault(u => u.Id == usuario.Id);
-            usuarioExistente = result.;
+                var usuarioExistente = _bd.Usuarios.FirstOrDefault(u => u.Id == usuario.Id);
+                if (!string.IsNullOrEmpty(usuario.Nombre))
+                {
+                    usuarioExistente.Email = usuario.Email;
+                }
 
-            return usuarioExistente;
+                if (!string.IsNullOrEmpty(usuario.Nombre))
+                {
+                    usuarioExistente.Nombre = usuario.Nombre;
+                }
+
+                if (!string.IsNullOrEmpty(usuario.Apellido))
+                {
+                    usuarioExistente.Apellido = usuario.Apellido;
+                }
+
+                if (usuario.NumeroColegiatura==null)
+                {
+                    usuarioExistente.NumeroColegiatura = usuario.NumeroColegiatura;
+                }
+
+                if (usuario.TelefonOficina == null)
+                {
+                    usuarioExistente.TelefonOficina = usuario.TelefonOficina;
+                }
+
+                if (!string.IsNullOrEmpty(usuario.DescripcionPsicologo))
+                {
+                    usuarioExistente.DescripcionPsicologo = usuarioExistente.DescripcionPsicologo;
+                }
+
+                if (!string.IsNullOrEmpty(usuario.Calle_Av))
+                {
+                    usuarioExistente.Calle_Av = usuarioExistente.Calle_Av;
+                }
+
+                if (!string.IsNullOrEmpty(usuario.Experiencia))
+                {
+                     usuarioExistente.Experiencia = usuarioExistente.Experiencia;
+                }
+
+                if (!string.IsNullOrEmpty(usuario.Formacion))
+                {
+                    usuarioExistente.Formacion = usuarioExistente.Formacion;
+                }
+
+                if (!string.IsNullOrEmpty(usuario.TipoTerapia))
+                {
+                    usuarioExistente.TipoTerapia = usuarioExistente.TipoTerapia;
+                }
+
+             await _userManager.UpdateAsync(usuarioExistente);
+             return usuarioExistente;
         }
     }
 }
