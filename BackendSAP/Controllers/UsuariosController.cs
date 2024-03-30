@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using BackendSAP.Modelos;
+using BackendSAP.Modelos.Dtos.Calificaciones;
+using BackendSAP.Modelos.Dtos.Estados;
 using BackendSAP.Modelos.Dtos.Usuarios;
 using BackendSAP.Repositorios.IRepositorios;
 using Microsoft.AspNetCore.Authorization;
@@ -108,6 +110,46 @@ namespace BackendSAP.Controllers
             _respuestasApi.StatusCode = HttpStatusCode.OK;
             _respuestasApi.IsSuccess = true;
             _respuestasApi.Result = respuestaLogin;
+            return Ok(_respuestasApi);
+        }
+
+        [Authorize(Roles = "admin,psicologo")]
+        [HttpPatch("{userId}", Name = "ActualizarPsicologo")]
+        [ProducesResponseType(201, Type = typeof(UsuarioActualizarPsicologoDto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ActualizarPsicologo(string userId, [FromBody] UsuarioActualizarPsicologoDto psicologoActualizarDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_usRepo.GetUsuario(userId) == null || psicologoActualizarDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var usurarioPsicologo = _mapper.Map<UsuarioActualizarPsicologoDto>(psicologoActualizarDto);
+            Usuarios currentUser = _usRepo.GetCurrentUser();
+
+            if (usuarioPsicologo.Id != currentUser.Id && !User.IsInRole("admin"))
+            {
+                _respuestasApi.StatusCode = HttpStatusCode.Forbidden;
+                _respuestasApi.IsSuccess = false;
+                _respuestasApi.ErrorMessages.Add("Error en la actualización de los datos. No puede actualizar datos que no le pertenecen.");
+                return BadRequest(_respuestasApi);
+            }
+
+            if (await _usRepo.ActualizarUsuarioPsicologo(usuarioPsicologo) == null)
+            {
+                ModelState.AddModelError("", $"Algo salió mal actualizando al actualizar su perfil de usuario");
+                return StatusCode(500, ModelState);
+            }
+
+            _respuestasApi.StatusCode = HttpStatusCode.OK;
+            _respuestasApi.IsSuccess = true;
             return Ok(_respuestasApi);
         }
     }

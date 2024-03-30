@@ -163,5 +163,14 @@ namespace BackendSAP.Repositorios
             }
             return new UsuarioDatosDto();
         }
+
+        public async Task<Usuarios> ActualizarUsuarioPsicologo(Usuarios usuario)
+        {
+            var result = await _userManager.UpdateAsync(usuario);
+            var usuarioExistente = _bd.Usuarios.FirstOrDefault(u => u.Id == usuario.Id);
+            usuarioExistente = result.;
+
+            return usuarioExistente;
+        }
     }
 }
