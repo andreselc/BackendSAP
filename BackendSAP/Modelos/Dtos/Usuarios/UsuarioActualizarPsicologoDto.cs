@@ -14,7 +14,7 @@ namespace BackendSAP.Modelos.Dtos.Usuarios
         public byte[]? ImagenTitulo { get; set; }*/
         public string? DescripcionPsicologo { get; set; }
         public string? Calle_Av { get; set; }
-        public enum Verificado { V, F }
+        public string? Verificado { get; set; }
         [MaxLength(1000, ErrorMessage = "El número máximo de caracteres para describir su experiencia es de 1000")]
         public string? Experiencia { get; set; }
         [MaxLength(1000, ErrorMessage = "El número máximo de caracteres para describir su formación es de 1000")]

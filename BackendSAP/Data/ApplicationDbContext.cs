@@ -34,6 +34,9 @@ namespace BackendSAP.Data
             .HasCheckConstraint("CK_Usuario_Psicologo_Calificacion", "usuarioId <> psicologoId");
 
             builder.Entity<Calificaciones>().ToTable(c => c.HasCheckConstraint("CK_puntaje", "[puntaje]  IN (1, 2, 3, 4, 5)"));
+
+            builder.Entity<Usuarios>()
+            .HasCheckConstraint("CK_EstadoVerificado", "[Verificado] IN ('V', 'F')");
         }
 
         //Agregar los modelos aquí
