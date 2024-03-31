@@ -152,5 +152,47 @@ namespace BackendSAP.Controllers
             _respuestasApi.IsSuccess = true;
             return Ok(_respuestasApi);
         }
+
+        [Authorize(Roles = "admin,usuario")]
+        [HttpPatch("{userId}", Name = "ActualizarUsuario")]
+        [ProducesResponseType(201, Type = typeof(UsuarioActualizarDto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> ActualizarUsuario(string userId, [FromBody] UsuarioActualizarDto usuarioActualizarDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (_usRepo.GetUsuario(userId) == null || usuarioActualizarDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var usuario = _usRepo.GetUsuario(userId);
+            var currentUser = _usRepo.GetCurrentUser();
+
+            if (usuario.Id != currentUser.Id && !User.IsInRole("admin"))
+            {
+                _respuestasApi.StatusCode = HttpStatusCode.Forbidden;
+                _respuestasApi.IsSuccess = false;
+                _respuestasApi.ErrorMessages.Add("Error en la actualización de los datos. No puede actualizar datos que no le pertenecen.");
+                return StatusCode(403, _respuestasApi);
+            }
+
+            var usuarioNormal = _mapper.Map<Usuarios>(usuarioActualizarDto);
+            if (await _usRepo.ActualizarUsuario(usuarioNormal) == null)
+            {
+                ModelState.AddModelError("", $"Algo salió mal actualizando al actualizar su perfil de usuario");
+                return StatusCode(500, ModelState);
+            }
+
+            _respuestasApi.StatusCode = HttpStatusCode.OK;
+            _respuestasApi.IsSuccess = true;
+            return Ok(_respuestasApi);
+        }
     }
 }

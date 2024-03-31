@@ -231,5 +231,43 @@ namespace BackendSAP.Repositorios
 
             return null;
         }
+
+        public async Task<Usuarios> ActualizarUsuario(Usuarios usuario)
+        {
+            var usuarioExistente = _bd.Usuarios.FirstOrDefault(u => u.Id == usuario.Id);
+
+            if (!string.IsNullOrEmpty(usuario.Email))
+            {
+                usuarioExistente.Email = usuario.Email;
+            }
+
+            if (!string.IsNullOrEmpty(usuario.Nombre))
+            {
+                usuarioExistente.Nombre = usuario.Nombre;
+            }
+
+            if (!string.IsNullOrEmpty(usuario.Apellido))
+            {
+                usuarioExistente.Apellido = usuario.Apellido;
+            }
+
+            if (!string.IsNullOrEmpty(usuario.TelefonOficina))
+            {
+                usuarioExistente.TelefonOficina = usuario.TelefonOficina;
+            }
+
+            if (usuario.CiudadId != null)
+            {
+                usuarioExistente.CiudadId = usuario.CiudadId;
+            }
+
+            var result = await _userManager.UpdateAsync(usuarioExistente);
+            if (result.Succeeded)
+            {
+                return usuarioExistente;
+            }
+
+            return null;
+        }
     }
 }

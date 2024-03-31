@@ -10,6 +10,7 @@ namespace BackendSAP.Repositorios.IRepositorios
         bool IsUniqueUser(string usuario);
         Usuarios GetCurrentUser();
         Task<Usuarios> ActualizarUsuarioPsicologo(Usuarios usuario);
+        Task<Usuarios> ActualizarUsuario(Usuarios usuario);
         Task<UsuarioLoginRespuestaDto> Login(UsuarioLoginDto usuarioLoginDto);
         Task<UsuarioDatosDto> Registro(UsuarioRegistroDto usuarioRegistroDto);
     }
