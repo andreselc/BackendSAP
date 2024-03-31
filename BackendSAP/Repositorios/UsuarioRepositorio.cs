@@ -275,7 +275,7 @@ namespace BackendSAP.Repositorios
             return null;
         }
 
-        public ICollection<Usuarios> BuscarUsuario(string nombre)
+        public ICollection<Usuarios> BuscarUsuarioPorNombre(string nombre)
         {
             IQueryable<Usuarios> query = _bd.Usuarios;
             if (!string.IsNullOrEmpty(nombre))

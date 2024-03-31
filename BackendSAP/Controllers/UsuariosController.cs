@@ -59,22 +59,29 @@ namespace BackendSAP.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetUsuarioPsicologo/{userId}")]
+        [HttpGet("GetUsuarioPsicologo")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetUsuarioPsicologo(string usuarioId)
+        public IActionResult GetUsuarioPsicologo(string nombre)
         {
-            var itemUsuario = _usRepo.GetUsuario(usuarioId);
-            if (itemUsuario == null)
-            {
-                return NotFound();
-            }
+           try
+           {
+            var itemUsuario = _usRepo.BuscarUsuarioPorNombre(nombre.Trim());
 
-            var itemUsuarioDto = _mapper.Map<UsuarioDto>(itemUsuario);
-            return Ok(itemUsuarioDto);
+             if (itemUsuario.Any())
+             {
+                var itemUsuarioDto = _mapper.Map<UsuarioDto>(itemUsuario);
+                return Ok(itemUsuarioDto);
+             }
+                return NotFound();
+             }
+           catch (Exception)
+             {
+              return StatusCode(StatusCodes.Status500InternalServerError, "Error recuperando datos");
+             }
         }
 
         [AllowAnonymous]
