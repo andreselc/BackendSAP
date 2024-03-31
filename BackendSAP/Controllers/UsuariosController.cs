@@ -129,6 +129,7 @@ namespace BackendSAP.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             var usuario = _usRepo.GetUsuario(userId);
             var currentUser = _usRepo.GetCurrentUser();
 

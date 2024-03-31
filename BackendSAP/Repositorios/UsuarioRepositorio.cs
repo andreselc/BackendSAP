@@ -168,7 +168,7 @@ namespace BackendSAP.Repositorios
         {
                 var usuarioExistente = _bd.Usuarios.FirstOrDefault(u => u.Id == usuario.Id);
 
-                if (!string.IsNullOrEmpty(usuario.Nombre))
+                if (!string.IsNullOrEmpty(usuario.Email))
                 {
                     usuarioExistente.Email = usuario.Email;
                 }
@@ -226,7 +226,7 @@ namespace BackendSAP.Repositorios
             var result = await _userManager.UpdateAsync(usuarioExistente);
             if (result.Succeeded)
             {
-                return usuarioExistente;
+             return usuarioExistente;
             }
 
             return null;
