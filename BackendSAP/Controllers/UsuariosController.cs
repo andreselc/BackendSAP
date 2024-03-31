@@ -111,7 +111,7 @@ namespace BackendSAP.Controllers
             return Ok(_respuestasApi);
         }
 
-        [Authorize(Roles = "admin,psicologo,usuario")]
+        [Authorize(Roles = "admin,psicologo")]
         [HttpPatch("{userId}", Name = "ActualizarPsicologo")]
         [ProducesResponseType(201, Type = typeof(UsuarioActualizarPsicologoDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
