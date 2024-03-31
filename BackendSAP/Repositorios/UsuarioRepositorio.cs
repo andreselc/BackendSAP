@@ -274,5 +274,15 @@ namespace BackendSAP.Repositorios
 
             return null;
         }
+
+        public ICollection<Usuarios> BuscarUsuario(string nombre)
+        {
+            IQueryable<Usuarios> query = _bd.Usuarios;
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                query = query.Where(u => u.Nombre.Contains(nombre) || u.Apellido.Contains(nombre));
+            }
+            return query.ToList();
+        }
     }
 }
