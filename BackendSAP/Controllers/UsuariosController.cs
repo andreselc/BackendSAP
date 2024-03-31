@@ -112,7 +112,7 @@ namespace BackendSAP.Controllers
         }
 
         [Authorize(Roles = "admin,psicologo")]
-        [HttpPatch("{userId}", Name = "ActualizarPsicologo")]
+        [HttpPatch("ActualizarPsicologo/{userId}")]
         [ProducesResponseType(201, Type = typeof(UsuarioActualizarPsicologoDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -154,7 +154,7 @@ namespace BackendSAP.Controllers
         }
 
         [Authorize(Roles = "admin,usuario")]
-        [HttpPatch("{userId}", Name = "ActualizarUsuario")]
+        [HttpPatch("ActualizarUsuario/{userId}")]
         [ProducesResponseType(201, Type = typeof(UsuarioActualizarDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
