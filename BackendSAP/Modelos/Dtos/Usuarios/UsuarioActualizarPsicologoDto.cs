@@ -9,7 +9,7 @@ namespace BackendSAP.Modelos.Dtos.Usuarios
         public string? Nombre { get; set; }
         public string? Apellido { get; set; }
         public int? NumeroColegiatura { get; set; }
-        public int? TelefonOficina { get; set; }
+        public string? TelefonOficina { get; set; }
         /*public byte[]? ImagenPerfil { get; set; }
         public byte[]? ImagenTitulo { get; set; }*/
         public string? DescripcionPsicologo { get; set; }

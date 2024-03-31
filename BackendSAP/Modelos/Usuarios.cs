@@ -12,7 +12,7 @@ namespace BackendSAP.Modelos
         [Required]
         public string Apellido { get; set; }
         public int? NumeroColegiatura { get; set; }
-        public int? TelefonOficina { get; set; }
+        public string? TelefonOficina { get; set; }
         public byte[]? ImagenPerfil { get; set; }
         public byte[]? ImagenTitulo { get; set; }
         public string? DescripcionPsicologo { get; set; }
