@@ -59,6 +59,25 @@ namespace BackendSAP.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("GetUsuarioPsicologo/{userId}")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetUsuarioPsicologo(string usuarioId)
+        {
+            var itemUsuario = _usRepo.GetUsuario(usuarioId);
+            if (itemUsuario == null)
+            {
+                return NotFound();
+            }
+
+            var itemUsuarioDto = _mapper.Map<UsuarioDto>(itemUsuario);
+            return Ok(itemUsuarioDto);
+        }
+
+        [AllowAnonymous]
         [HttpPost("registro")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

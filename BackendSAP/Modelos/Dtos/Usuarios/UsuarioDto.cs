@@ -11,6 +11,10 @@ namespace BackendSAP.Modelos.Dtos.Usuarios
 
         public string Nombre { get; set; }
 
+        public string Apellido { get; set; }
+
+        public string TelefonOficina { get; set; }
+
         public string Password { get; set; }
 
         public string Role { get; set; }
