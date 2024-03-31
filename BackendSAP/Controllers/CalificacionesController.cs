@@ -100,7 +100,7 @@ namespace BackendSAP.Controllers
             return CreatedAtRoute("GetCalificacion", new { calificacionId = calificacion.Id }, calificacion);
         }
 
-        [Authorize(Roles = "admin,psicologo,usuario")]
+        [Authorize(Roles = "admin,psicologo")]
         [HttpPatch("{calificacionId}", Name = "ActualizarPatchCalificaciones")]
         [ProducesResponseType(201, Type = typeof(CalificacionesDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]

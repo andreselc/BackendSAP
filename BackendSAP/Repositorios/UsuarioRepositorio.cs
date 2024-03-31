@@ -188,7 +188,7 @@ namespace BackendSAP.Repositorios
                     usuarioExistente.NumeroColegiatura = usuario.NumeroColegiatura;
                 }
 
-                if (usuario.TelefonOficina != null)
+                if (!string.IsNullOrEmpty(usuario.TelefonOficina))
                 {
                     usuarioExistente.TelefonOficina = usuario.TelefonOficina;
                 }
@@ -216,6 +216,11 @@ namespace BackendSAP.Repositorios
                 if (!string.IsNullOrEmpty(usuario.TipoTerapia))
                 {
                     usuarioExistente.TipoTerapia = usuario.TipoTerapia;
+                }
+
+                if (usuario.CiudadId != null)
+                {
+                    usuarioExistente.CiudadId = usuario.CiudadId;
                 }
 
             var result = await _userManager.UpdateAsync(usuarioExistente);
