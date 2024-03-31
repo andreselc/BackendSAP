@@ -208,7 +208,12 @@ namespace BackendSAP.Repositorios
                      usuarioExistente.Experiencia = usuario.Experiencia;
                 }
 
-                if (!string.IsNullOrEmpty(usuario.Formacion))
+                if (!string.IsNullOrEmpty(usuario.Verificado))
+                {
+                    usuarioExistente.Verificado = usuario.Verificado;
+                }
+
+            if (!string.IsNullOrEmpty(usuario.Formacion))
                 {
                     usuarioExistente.Formacion = usuario.Formacion;
                 }
