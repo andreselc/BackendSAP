@@ -130,11 +130,13 @@ namespace BackendSAP.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var usuarioPsicologo = _mapper.Map<Usuarios>(psicologoActualizarDto);
+            var usuario = _usRepo.GetUsuario(userId);
             Usuarios currentUser = _usRepo.GetCurrentUser();
 
-            if (usuarioPsicologo.Id != currentUser.Id && !User.IsInRole("admin"))
+            Console.WriteLine(usuario.Id);
+            Console.WriteLine(currentUser.Id);
+
+            if (usuario.Id != currentUser.Id && !User.IsInRole("admin"))
             {
                 _respuestasApi.StatusCode = HttpStatusCode.Forbidden;
                 _respuestasApi.IsSuccess = false;
@@ -142,6 +144,7 @@ namespace BackendSAP.Controllers
                 return BadRequest(_respuestasApi);
             }
 
+            var usuarioPsicologo = _mapper.Map<Usuarios>(psicologoActualizarDto);
             if (await _usRepo.ActualizarUsuarioPsicologo(usuarioPsicologo) == null)
             {
                 ModelState.AddModelError("", $"Algo salió mal actualizando al actualizar su perfil de usuario");

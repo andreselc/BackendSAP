@@ -167,6 +167,7 @@ namespace BackendSAP.Repositorios
         public async Task<Usuarios> ActualizarUsuarioPsicologo(Usuarios usuario)
         {
                 var usuarioExistente = _bd.Usuarios.FirstOrDefault(u => u.Id == usuario.Id);
+
                 if (!string.IsNullOrEmpty(usuario.Nombre))
                 {
                     usuarioExistente.Email = usuario.Email;
@@ -182,43 +183,48 @@ namespace BackendSAP.Repositorios
                     usuarioExistente.Apellido = usuario.Apellido;
                 }
 
-                if (usuario.NumeroColegiatura==null)
+                if (usuario.NumeroColegiatura != null)
                 {
                     usuarioExistente.NumeroColegiatura = usuario.NumeroColegiatura;
                 }
 
-                if (usuario.TelefonOficina == null)
+                if (usuario.TelefonOficina != null)
                 {
                     usuarioExistente.TelefonOficina = usuario.TelefonOficina;
                 }
 
                 if (!string.IsNullOrEmpty(usuario.DescripcionPsicologo))
                 {
-                    usuarioExistente.DescripcionPsicologo = usuarioExistente.DescripcionPsicologo;
+                    usuarioExistente.DescripcionPsicologo = usuario.DescripcionPsicologo;
                 }
 
                 if (!string.IsNullOrEmpty(usuario.Calle_Av))
                 {
-                    usuarioExistente.Calle_Av = usuarioExistente.Calle_Av;
+                    usuarioExistente.Calle_Av = usuario.Calle_Av;
                 }
 
                 if (!string.IsNullOrEmpty(usuario.Experiencia))
                 {
-                     usuarioExistente.Experiencia = usuarioExistente.Experiencia;
+                     usuarioExistente.Experiencia = usuario.Experiencia;
                 }
 
                 if (!string.IsNullOrEmpty(usuario.Formacion))
                 {
-                    usuarioExistente.Formacion = usuarioExistente.Formacion;
+                    usuarioExistente.Formacion = usuario.Formacion;
                 }
 
                 if (!string.IsNullOrEmpty(usuario.TipoTerapia))
                 {
-                    usuarioExistente.TipoTerapia = usuarioExistente.TipoTerapia;
+                    usuarioExistente.TipoTerapia = usuario.TipoTerapia;
                 }
 
-             await _userManager.UpdateAsync(usuarioExistente);
-             return usuarioExistente;
+            var result = await _userManager.UpdateAsync(usuarioExistente);
+            if (result.Succeeded)
+            {
+                return usuarioExistente;
+            }
+
+            return null;
         }
     }
 }

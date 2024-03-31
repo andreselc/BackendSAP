@@ -161,7 +161,6 @@ namespace BackendSAP.Controllers
             var calificacion = _caliRepo.GetCalificacion(calificacionId);
             Usuarios user = _usRepo.GetCurrentUser();
 
-
             if (calificacion.usuarioId != user.Id  && !User.IsInRole("admin"))
             {
                 ModelState.AddModelError("", $"No es posible eliminar una calificación que no le pertenece");
