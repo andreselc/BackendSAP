@@ -20,6 +20,7 @@ namespace BackendSAP.Mappers
             CreateMap<Usuarios, UsuarioDatosDto>().ReverseMap();
             CreateMap<Usuarios, UsuarioActualizarDto>().ReverseMap();
             CreateMap<Usuarios, UsuarioActualizarPsicologoDto>().ReverseMap();
+            CreateMap<ICollection<Usuarios>,UsuarioDto>().ReverseMap();
             CreateMap<TrastornoPsicologico, TrastornoDto>().ReverseMap();
             CreateMap<TrastornoPsicologico, CrearTrastornoDto>().ReverseMap();
             CreateMap<TrastornoPsicologico, ActualizarTrastornoDto>().ReverseMap();

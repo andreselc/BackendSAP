@@ -69,15 +69,14 @@ namespace BackendSAP.Controllers
         {
            try
            {
-            var itemUsuario = _usRepo.BuscarUsuarioPorNombre(nombre.Trim());
-
-             if (itemUsuario.Any())
+           var itemUsuario = _usRepo.BuscarUsuarioPorNombre(nombre.Trim());
+           if (itemUsuario.Any())
              {
-                var itemUsuarioDto = _mapper.Map<UsuarioDto>(itemUsuario);
+                var itemUsuarioDto = _mapper.Map<ICollection<UsuarioDto>>(itemUsuario);
                 return Ok(itemUsuarioDto);
              }
                 return NotFound();
-             }
+           }
            catch (Exception)
              {
               return StatusCode(StatusCodes.Status500InternalServerError, "Error recuperando datos");
