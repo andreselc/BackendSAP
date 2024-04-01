@@ -278,7 +278,7 @@ namespace BackendSAP.Repositorios
 
         public ICollection<Usuarios> BuscarUsuarioPorNombre(string nombre)
         {
-            IQueryable<Usuarios> query = _bd.Usuarios;
+            IQueryable<Usuarios> query = _bd.Usuarios.Include(u => u.CalificacionesRecibidas); ;
             if (!string.IsNullOrEmpty(nombre))
             {
                 query = query.Where(u => u.Nombre.Contains(nombre) || u.Apellido.Contains(nombre));

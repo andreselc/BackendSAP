@@ -21,6 +21,7 @@ namespace BackendSAP.Modelos.Dtos.Usuarios
         public string Experiencia { get; set; }
         public string Formacion { get; set; }
         public string TipoTerapia { get; set; }
+        public List<CalificacionesDto> CalificacionesRecibidas { get; set; }
 
     }
 }
