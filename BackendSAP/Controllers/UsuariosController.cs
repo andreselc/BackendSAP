@@ -77,6 +77,7 @@ namespace BackendSAP.Controllers
                 }
                 return NotFound();
             }
+
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error recuperando datos");
