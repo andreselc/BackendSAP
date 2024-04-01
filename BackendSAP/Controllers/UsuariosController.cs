@@ -67,20 +67,20 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetUsuarioPsicologo(string nombre)
         {
-           try
-           {
-           var itemUsuario = _usRepo.BuscarUsuarioPorNombre(nombre.Trim());
-           if (itemUsuario.Any())
-             {
-                var itemUsuarioDto = _mapper.Map<ICollection<UsuarioDto>>(itemUsuario);
-                return Ok(itemUsuarioDto);
-             }
+            try
+            {
+                var itemUsuario = _usRepo.BuscarUsuarioPorNombre(nombre.Trim());
+                if (itemUsuario.Any())
+                {
+                    var itemUsuarioDto = _mapper.Map<ICollection<UsuarioPsicologoDto>>(itemUsuario);
+                    return Ok(itemUsuarioDto);
+                }
                 return NotFound();
-           }
-           catch (Exception)
-             {
-              return StatusCode(StatusCodes.Status500InternalServerError, "Error recuperando datos");
-             }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error recuperando datos");
+            }
         }
 
         [AllowAnonymous]
