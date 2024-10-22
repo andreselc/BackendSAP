@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 //Conexión a SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
 {

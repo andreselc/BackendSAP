@@ -59,7 +59,7 @@ namespace BackendSAP.Controllers
             return Ok(itemCiudadDto);
         }
 
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(CiudadDto))]
         [ProducesResponseType(StatusCodes.Status201Created)]
