@@ -1,4 +1,4 @@
-# API para el Servicio de Asesoramiento Psicológico de la UCV
+# Servicio Comunitario-API para el Servicio de Asesoramiento Psicológico de la UCV
 
 Desarrollo de una API REST para una página web para consultas y asesoramiento psicológico.
 
@@ -15,7 +15,7 @@ Primeramente, al iniciar Microsoft SQL Server Management Studio, se debe conecta
 
 Para hacer esto, primero se debe crear el login del usuario. Primero se inicia con "Windows Authetication" usando la instancia "localhost\SQLEXPRESS", como se muestra en la siguiente imagen:
 
-![Parámetros para Windows Authentication](BackendSAP/Images/WindowAuthentication.png)
+![Parámetros para Windows Authentication](BackendSAP/../Images/WindowAuthentication.png)
 
 Luego, se crea el usuario con la contraseña y los siguientes parámetros:
 
@@ -113,5 +113,9 @@ Nota: Para que la autoriazaión no falle, se debe colocar la palabra "Bearer" seg
 ![Creación Trastorno](BackendSAP/../Images/output2.png)
 
 Si se ejecutara este endpoint con otro usuario de un rol distinto a "admin", la API generaría un error 403 por no tener autorización.
+
+## Autores
+
+- ### [@Andrés López](https://github.com/andreselc) [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/andres-lopez-644338281/)
 
 
