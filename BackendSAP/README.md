@@ -21,18 +21,18 @@ usando la instancia "localhost\SQLEXPRESS", como se muestra en la siguiente imag
 
 Luego, se crea el usuario con la contraseña y los siguientes parámetros:
 
-![Parámetros para crear usuario](BackendSAP/Images/createLogin.png)
-![Rol del usuario en el servidor](BackendSAP/Images/serverRole.png)
-![Permisos de usuario](BackendSAP/Images/serverRole.png)
+![Parámetros para crear usuario](BackendSAP/../Images/createLogin.png)
+![Rol del usuario en el servidor](BackendSAP/../Images/serverRole.png)
+![Permisos de usuario](BackendSAP/../Images/serverRole.png)
 
 Posteriormente, con click derecho al nombre del servidor, se selecciona la opción de "Properties" y
 y se cambia el modo de autenticaión a "SQL Server and Windows Authetication mode", como se muestra a continuación:
 
-![Cambiar modo de autenticación](BackendSAP/Images/authenticationMode.png)
+![Cambiar modo de autenticación](BackendSAP/../Images/authenticationMode.png)
 
 Finalmente, se reinicia el servidor con la opción "restart" y se conecta con el usuario creado.
 
-![Conexión con usuario creado](BackendSAP/Images/sqlServerAuthentication.png)
+![Conexión con usuario creado](BackendSAP/../Images/sqlServerAuthentication.png)
 
 
 
