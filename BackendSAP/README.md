@@ -25,11 +25,11 @@ Luego, se crea el usuario con la contraseña y los siguientes parámetros:
 
 Posteriormente, con click derecho al nombre del servidor, se selecciona la opción de "Properties" y se cambia el modo de autenticaión a "SQL Server and Windows Authetication mode", como se muestra a continuación:
 
-![Cambiar modo de autenticación](BackendSAP/../Images/authenticationMode.png)
+![Cambiar modo de autenticación](BackendSAP/../Images/authenticationMode1.png)
 
 Finalmente, se reinicia el servidor con la opción "restart" y se conecta con el usuario creado.
 
-![Conexión con usuario creado](BackendSAP/../Images/sqlServerAuthentication1.png)
+![Conexión con usuario creado](BackendSAP/../Images/sqlServerAuthentication.png)
 
 Por último, al generar la conexión, se crea la base de datos y se le coloca el nombre de preferencia.
 
