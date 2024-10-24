@@ -45,7 +45,7 @@ Nota: Es importante que las versiones sean iguales en cada una de las dependenci
 
 ### Archivo de configuración
 
-El archivo appsentings.json debe tener el siguiente formato para realizar la conexión con la base de datos y generar la clave secreta para los tokens:
+El archivo appsettings.json debe tener el siguiente formato para realizar la conexión con la base de datos y generar la clave secreta para los tokens:
 
 ```bash
 
