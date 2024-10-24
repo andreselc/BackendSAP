@@ -21,7 +21,7 @@ Luego, se crea el usuario con la contraseña y los siguientes parámetros:
 
 ![Parámetros para crear usuario](BackendSAP/../Images/createLogin.png)
 ![Rol del usuario en el servidor](BackendSAP/../Images/serverRole.png)
-![Permisos de usuario](BackendSAP/../Images/serverRole.png)
+![Permisos de usuario](BackendSAP/../Images/permisosUsuario.png)
 
 Posteriormente, con click derecho al nombre del servidor, se selecciona la opción de "Properties" y se cambia el modo de autenticaión a "SQL Server and Windows Authetication mode", como se muestra a continuación:
 
