@@ -6,6 +6,8 @@ namespace BackendSAP.Repositorios.IRepositorios
     {
         ICollection<Calificaciones> GetCalificaciones();
         Calificaciones GetCalificacion(int calificacionId);
+
+        public ICollection<Calificaciones> GetCalificacionesPorPsicologo(string psicologoId);
         bool ExisteCalificacion(int id); 
         bool ExisteCalificacionDuplicada(string idUsuario, string idPsicologo);
         bool PuntajeEsCorrecto(int puntaje);

@@ -72,6 +72,11 @@ namespace BackendSAP.Repositorios
             return _bd.Calificaciones.FirstOrDefault(c => c.Id == calificacionId);
         }
 
+        public ICollection<Calificaciones> GetCalificacionesPorPsicologo(string psicologoId)
+        {
+            return _bd.Calificaciones.Where(c => c.psicologoId == psicologoId).ToList();
+        }
+
         public ICollection<Calificaciones> GetCalificaciones()
         {
             return _bd.Calificaciones.OrderBy(c => c.puntaje).ToList();
