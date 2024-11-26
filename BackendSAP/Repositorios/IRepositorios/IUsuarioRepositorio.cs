@@ -5,7 +5,7 @@ namespace BackendSAP.Repositorios.IRepositorios
 {
     public interface IUsuarioRepositorio
     {
-        ICollection<Usuarios> GetUsuarios();
+        Task<ICollection<UsuarioDto>> GetUsuarios();
         Usuarios GetUsuario(string usuarioId);
         bool IsUniqueUser(string usuario);
         Usuarios GetCurrentUser();

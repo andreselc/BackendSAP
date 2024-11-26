@@ -65,9 +65,20 @@ namespace BackendSAP.Repositorios
             return _bd.Usuarios.FirstOrDefault(u => u.Id == usuarioId);
         }
 
-        public ICollection<Usuarios> GetUsuarios()
+        public async Task<ICollection<UsuarioDto>> GetUsuarios()
         {
-            return _bd.Usuarios.OrderBy(u => u.Email).ToList();
+            var usuarios = await _bd.Usuarios.ToListAsync();
+            var usuariosDto = new List<UsuarioDto>();
+
+            foreach (var usuario in usuarios)
+            {
+                var roles = await _userManager.GetRolesAsync(usuario);
+                var usuarioDto = _mapper.Map<UsuarioDto>(usuario);
+                usuarioDto.Role = roles.FirstOrDefault(); // Asumiendo que el usuario tiene un solo rol
+                usuariosDto.Add(usuarioDto);
+            }
+
+            return usuariosDto;
         }
 
         public bool IsUniqueUser(string usuario)
@@ -286,5 +297,6 @@ namespace BackendSAP.Repositorios
             }
             return query.ToList();
         }
+
     }
 }

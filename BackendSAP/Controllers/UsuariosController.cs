@@ -28,15 +28,11 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetUsuarios()
+        public async Task<IActionResult> GetUsuariosAsync()
         {
-            var listaUsuarios = _usRepo.GetUsuarios();
-            var listaUsuariosDto = new List<UsuarioDto>();
-            foreach (var lista in listaUsuarios)
-            {
-                listaUsuariosDto.Add(_mapper.Map<UsuarioDto>(lista));
-            }
-            return Ok(listaUsuariosDto);
+            var usuariosConRoles = await _usRepo.GetUsuarios();
+            return Ok(usuariosConRoles);
+
         }
 
         [Authorize(Roles = "admin")]
