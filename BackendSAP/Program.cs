@@ -20,6 +20,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
 }
 );
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder => builder.WithOrigins("http://localhost:4200")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
 //Soporte para autenticación con .NET Identity 
 builder.Services.AddIdentity<Usuarios, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -100,6 +108,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowOrigin"); // Aplica la política CORS
 
 app.UseHttpsRedirection();
 

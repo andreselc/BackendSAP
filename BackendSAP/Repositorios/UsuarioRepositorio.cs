@@ -121,7 +121,8 @@ namespace BackendSAP.Repositorios
             UsuarioLoginRespuestaDto usuarioLoginRespuestaDto = new UsuarioLoginRespuestaDto()
             {
                 Token = manejadorToken.WriteToken(token),
-                Usuario = _mapper.Map<UsuarioDatosDto>(usuario)
+                Usuario = _mapper.Map<UsuarioDatosDto>(usuario),
+                Role = roles[0]
             };
 
             return usuarioLoginRespuestaDto;
