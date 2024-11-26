@@ -42,15 +42,16 @@ namespace BackendSAP.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetUsuario(string usuarioId)
+        public async Task<IActionResult> GetUsuario(string usuarioId)
         {
-            var itemUsuario = _usRepo.GetUsuario(usuarioId);
+            var itemUsuario = await _usRepo.GetUsuarioConRol(usuarioId);
             if (itemUsuario == null)
             {
                 return NotFound();
             }
 
-            var itemUsuarioDto = _mapper.Map<UsuarioDto>(itemUsuario);
+            var itemUsuarioDto = _mapper.Map<UsuarioPorIdDto>(itemUsuario);
+
             return Ok(itemUsuarioDto);
         }
 

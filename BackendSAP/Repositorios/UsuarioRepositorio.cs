@@ -65,6 +65,21 @@ namespace BackendSAP.Repositorios
             return _bd.Usuarios.FirstOrDefault(u => u.Id == usuarioId);
         }
 
+        public async Task<UsuarioPorIdDto> GetUsuarioConRol(string usuarioId)
+        {
+            var usuario = await _bd.Usuarios.FirstOrDefaultAsync(u => u.Id == usuarioId);
+            if (usuario == null)
+            {
+                return null;
+            }
+
+            var roles = await _userManager.GetRolesAsync(usuario);
+            var usuarioDto = _mapper.Map<UsuarioPorIdDto>(usuario);
+            usuarioDto.Role = roles.FirstOrDefault();
+
+            return usuarioDto;
+        }
+
         public async Task<ICollection<UsuarioDto>> GetUsuarios()
         {
             var usuarios = await _bd.Usuarios.ToListAsync();
