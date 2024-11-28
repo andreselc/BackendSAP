@@ -163,7 +163,8 @@ namespace BackendSAP.Repositorios
                 Email = usuarioRegistroDto.Email,
                 NormalizedEmail = usuarioRegistroDto.Email.ToUpper(),
                 Nombre = usuarioRegistroDto.Nombre,
-                Apellido = usuarioRegistroDto.Apellido
+                Apellido = usuarioRegistroDto.Apellido,
+                Verificado = "F",
             };
 
             var result = await _userManager.CreateAsync(usuario, usuarioRegistroDto.Password);
